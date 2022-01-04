@@ -11,6 +11,10 @@ import (
 	"strings"
 )
 
+type Routable interface {
+	Route(method string, pattern string, handlerFunc handlerFunc)
+}
+
 type TreeRouteHandler struct {
 	root *node
 }

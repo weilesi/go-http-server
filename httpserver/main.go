@@ -8,6 +8,11 @@ import (
 	"go-http-server/httpserver/simple"
 )
 
+const (
+	simpleServerType       = "simple"
+	professionalServerType = "professional"
+)
+
 func main() {
 	//serverType:1、启动简单服务传simple；2、启动封装后工程化的服务传professional
 	callServerStart("professional")
@@ -26,11 +31,11 @@ func simpleServer() {
 	}
 }
 
-//HTTP-Server更多的封装实现
+//HTTP-Server工程化封装实现
 func professionalServer() {
 	serverStartLog("user", "professional")
 
-	server := professional.NewSdkHttpServer("pro-server", professional.MetricFilterBuilder)
+	server := professional.NewHttpServer("pro-server", professional.MetricFilterBuilder)
 	server.Route("GET", "/", professional.UserIndexHandler)
 	server.Route("POST", "/user/login", professional.UserLoginHandler)
 
@@ -48,9 +53,9 @@ func serverStartLog(serverName string, serverType string) {
 
 func callServerStart(serverType string) {
 	switch serverType {
-	case "simple":
+	case simpleServerType:
 		simpleServer()
-	case "professional":
+	case professionalServerType:
 		professionalServer()
 	}
 }
