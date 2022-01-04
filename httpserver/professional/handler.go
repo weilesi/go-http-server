@@ -1,4 +1,4 @@
-package sdk
+package professional
 
 /**
   @Description: 封装了http请求处理接口
@@ -7,7 +7,7 @@ package sdk
 */
 
 type Handler interface {
-	ServerHTTP(ctx *Context)
+	ServeHTTP(ctx *Context)
 	Routable
 }
 
