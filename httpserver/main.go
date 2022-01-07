@@ -25,7 +25,7 @@ func simpleServer() {
 	server := simple.NewSimpleHttpServer("simple")
 	server.Route("/", simple.RootHandler)
 	server.Route("/healthz", simple.HealthHandler)
-	err := server.Start("localhost:8088")
+	err := server.Start(":8088")
 	if err != nil {
 		glog.Errorf("Starting Simple Server:", err.Error())
 	}
@@ -39,7 +39,7 @@ func professionalServer() {
 	server.Route("GET", "/", professional.UserIndexHandler)
 	server.Route("POST", "/user/login", professional.UserLoginHandler)
 
-	err := server.Start("localhost:8099")
+	err := server.Start(":8099")
 	if err != nil {
 		fmt.Println("Service startup encountered an error：" + err.Error())
 		panic(err)

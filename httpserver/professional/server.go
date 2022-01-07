@@ -6,11 +6,17 @@ package professional
   @date 2021年12月29日 下午16:40:18
 */
 
-import "net/http"
+import (
+	"context"
+	"net/http"
+	"time"
+)
 
 type IServer interface {
 	Routable
 	Start(address string) error
+
+	Shutdown(ctx context.Context) error
 }
 
 type structHttpServer struct {
@@ -30,6 +36,11 @@ func (s *structHttpServer) Route(method string, pattern string, handlerFunc hand
 
 func (s *structHttpServer) Start(address string) error {
 	return http.ListenAndServe(address, s)
+}
+
+func (s *structHttpServer) Shutdown(ctx context.Context) error {
+	time.Sleep(time.Second)
+	return nil
 }
 
 // NewHttpServer 创建新的Server，给调用方暴露该函数
