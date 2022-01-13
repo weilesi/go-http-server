@@ -47,7 +47,20 @@ Create HTTP server with go language.
 - 等待当前的所有请求处理完毕
 - 释放当前服务所涉及的资源
 - 关闭服务（在这阶段：超时/收到多次退出命令情况只能强制退出）
-
+## 三、制作Docker镜像
+- 1.编写Makefile
+- 2.编写Dockerfile
+- 3.把镜像文件推送到私有的镜像库上
+- 4.docker run拉去和启动镜像
+  docker run -d --name myhttpserver -p 80:8099 weilesi/httpserver:v1.0
+- 5.在客户端验证
+  http://49.234.20.248/
+  通过postman验证更多接口，例如：http://49.234.20.248/user/login
+- 6.获取当前容器的pid
+  docker inspect myhttpserver|grep -i pid
+- 7.用nsenter命令查看ip和路由等
+  nsenter -t 1569526 -n ip a
+  nsenter -t 1569526 -n route
 
 
 
