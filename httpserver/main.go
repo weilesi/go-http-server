@@ -25,7 +25,7 @@ func simpleServer() {
 	server := simple.NewSimpleHttpServer("simple")
 	server.Route("/", simple.RootHandler)
 	server.Route("/healthz", simple.HealthHandler)
-	err := server.Start(":8088")
+	err := server.Start(":8088", false)
 	if err != nil {
 		glog.Errorf("Starting Simple Server:", err.Error())
 	}
