@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/golang/glog"
 	"go-http-server/httpserver/professional"
 	"go-http-server/httpserver/simple"
+	"log"
 )
 
 const (
@@ -27,7 +27,7 @@ func simpleServer() {
 	server.Route("/healthz", simple.HealthHandler)
 	err := server.Start(":8088", false)
 	if err != nil {
-		glog.Errorf("Starting Simple Server:", err.Error())
+		log.Printf("Starting Simple Server:", err.Error())
 	}
 }
 
@@ -48,7 +48,7 @@ func professionalServer() {
 
 func serverStartLog(serverName string, serverType string) {
 	flag.Set("V", "4")
-	glog.Info("Starting the " + serverType + " server." + " Server Name is " + serverName)
+	log.Printf("Starting the " + serverType + " server." + " Server Name is " + serverName)
 }
 
 func callServerStart(serverType string) {

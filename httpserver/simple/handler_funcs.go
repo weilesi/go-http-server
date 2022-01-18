@@ -2,9 +2,9 @@ package simple
 
 import (
 	"fmt"
-	"github.com/golang/glog"
 	"go-http-server/httpserver/utils"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -23,7 +23,7 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("version", os.Getenv("VERSION"))
 
 	ip := utils.GetClientIP()
-	glog.Infof("客户端请求IP为：" + ip + ", Http返回码：" + strconv.Itoa(http.StatusOK))
+	log.Printf("客户端请求IP为：" + ip + ", Http返回码：" + strconv.Itoa(http.StatusOK))
 }
 
 func HealthHandler(w http.ResponseWriter, r *http.Request) {
