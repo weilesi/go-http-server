@@ -49,7 +49,8 @@ Create HTTP server with go language.
 - 关闭服务（在这阶段：超时/收到多次退出命令情况只能强制退出）
 ## 三、制作Docker镜像
 - 1.编写Dockerfile
-- 2.把镜像文件推送到私有的镜像库上
+- 2.构建build
+  docker build -t weilesi/httpserver:v1.0.0 .
 - 3.拉去和启动镜像httpserver
   docker run -d --name myhttpserver -p 80:8099 weilesi/httpserver:v1.0.0
 - 4.在客户端验证
@@ -60,6 +61,8 @@ Create HTTP server with go language.
 - 6.用nsenter命令查看ip和路由等
   nsenter -t 1258522 -n ip a
   nsenter -t 1258522 -n route
+- 7.把镜像文件推到私有仓库中
+  docker push weilesi/httpserver:v1.0.0
 
 
 
