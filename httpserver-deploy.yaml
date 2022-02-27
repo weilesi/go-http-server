@@ -12,13 +12,20 @@ spec:
       labels:
         app: httpserver
     spec:
+      imagePullSecrets:
+        - name: weilesi
       containers:
         - name: httpserver
-          image: httpserver
-          readinessProbe:
-            exec:
-              command:
-                - curl
-                - /healthz
-            initialDelaySeconds: 5
-            periodSeconds: 5
+          image: weilesi/httpserver
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8099
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /stop.sh
+
