@@ -63,6 +63,16 @@ Create HTTP server with go language.
   nsenter -t 1258522 -n route
 - 7.把镜像文件推到私有仓库中
   docker push weilesi/httpserver:v1.0.0
+## 四、httpserver部署到k8s集群中
+### 4.1 要求
+- 优雅启动
+- 优雅终止
+- 资源需求和 QoS 保证
+- 探活
+- 日常运维需求，日志等级
+- 配置和代码分离
+### 4.2 实现
+详细请看httpserver-deploy.yaml文件
 
 
 
