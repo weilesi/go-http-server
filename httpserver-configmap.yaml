@@ -4,3 +4,4 @@ metadata:
   name: myenv
 data:
   httpport: "8099"
+  loglevel: "info"
