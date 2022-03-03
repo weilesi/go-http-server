@@ -1,39 +1,54 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: httpserver-deployment
+  name: httpserver
+  labels:
+    app: httpserver
 spec:
-  replicas: 1
+  replicas: 2
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: httpserver
+  stategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: httpserver
     spec:
       imagePullSecrets:
         - name: weilesi
       containers:
+        - env:
+            - name: httpport
+              valueFrom:
+                configMapKeyRef:
+                  key: httpport
+                  name: myenv
         - name: httpserver
-          image: weilesi/httpserver
+          image: hub.docker.com/repository/docker/weilesi/httpserver:v1.0.1
+          imagePullPolicy: IfNotPresent
           livenessProbe:
+            failureThreshold: 3
             httpGet:
               path: /healthz
               port: 8099
             initialDelaySeconds: 3
             periodSeconds: 3
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                  - /stop.sh
+            successThreshold: 1
+            timeoutSeconds: 1
           resources:
             requests:
-              memory: "50Mi"
-              cpu: "100m"
+              memory: 50Mi
+              cpu: 100m
             limits:
-              memory: "100Mi"
-              cpu: "200m"
+              memory: 100Mi
+              cpu: 200m
 
 
