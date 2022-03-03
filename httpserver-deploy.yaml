@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       app: httpserver
-  stategy:
+  strategy:
     rollingUpdate:
       maxSurge: 25%
       maxUnavailable: 25%
@@ -31,7 +31,7 @@ spec:
                 configMapKeyRef:
                   key: httpport
                   name: myenv
-        - name: httpserver
+          name: httpserver
           image: hub.docker.com/repository/docker/weilesi/httpserver:v1.0.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
