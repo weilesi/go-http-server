@@ -11,6 +11,7 @@ COPY httpserver/main.go .
 COPY httpserver/professional/* httpserver/professional/
 COPY httpserver/simple/* httpserver/simple/
 COPY httpserver/utils/* httpserver/utils/
+RUN ls -ltra
 RUN go build -o httpserver/bin/amd64 .
 
 FROM scratch

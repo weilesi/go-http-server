@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  generation: 1
+  name: my-crypt-prod
+spec:
+  acme:
+    email: weileisihj@126.com
+    preferredChain: ""
+    privateKeySecretRef:
+      name: my-crypt-prod
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+      - http01:
+          ingress:
+            class: nginx

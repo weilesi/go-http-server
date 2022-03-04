@@ -64,15 +64,64 @@ Create HTTP server with go language.
 - 7.把镜像文件推到私有仓库中
   docker push weilesi/httpserver:v1.0.0
 ## 四、httpserver部署到k8s集群中
-### 4.1 要求
+### 4.1 第一部分
+#### 4.1.1 要求
 - 优雅启动
 - 优雅终止
 - 资源需求和 QoS 保证
 - 探活
 - 日常运维需求，日志等级
 - 配置和代码分离
-### 4.2 实现
+#### 4.1.2 实现
 详细请看httpserver-deploy.yaml文件
+### 4.2 第二部分
+#### 4.2.1 要求
+- 在第一部分的基础上更加完备的部署spec
+- Service
+- Ingress
+- 如何保证整个应用的高可用
+- 如何通过证书保证httpServer的通讯安全
+#### 4.2.2 实现
+- Service的实现请看httpserver-svc.yaml
+- Ingress以及安全通讯的实现参考如下
+  
+````
+# 1、Ubuntu上安装helm
+sudo snap install helm --classic
+# 2、通过helm方式安装ingress-nginx
+helm repo add nginx-stable https://helm.nginx.com/stable
+helm repo update
+helm install ingress-nginx ingress-nginx/ingress-nginx --create-namespace --namespace ingress
+
+#3、查看安装情况
+kubectl get pod -n ingress
+kubectl get svc -n ingress
+
+#4、无证书的实现ingres，请参考httpserver-ingress.yaml
+
+#5、证书通过cert-manager实现
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.crds.yaml
+
+helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.7.1 \
+
+#6、签发CA证书的配置
+参考httpserver-issuer.yaml文件
+
+#7、配置证书
+kubectl get cert
+kubectl get CertificateRequest
+
+#8、通讯安全的Ingress
+请参考httpserver-ingress-ca.yaml文件
+
+````
 
 
 
