@@ -141,3 +141,4 @@ kubectl get CertificateRequest
 - 编写deploy.yaml,详情查看httpserver-metrics-deploy.yaml
 - 在K8S中按照httpserver-metrics-deploy.yaml进行部署
 - 在Promethus界面中验证指标数据展现的情况
+- 可以添加对应告警规则，利用AlertManager发送短信/邮件提醒作用
