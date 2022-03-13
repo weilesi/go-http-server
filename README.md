@@ -122,6 +122,22 @@ kubectl get CertificateRequest
 请参考httpserver-ingress-ca.yaml文件
 
 ````
-
-
-
+## 五、httpserver添加监控
+### 5.1 要求
+- 为 HTTPServer 添加 0-2 秒的随机延时；
+- 为 HTTPServer 项目添加延时 Metric；
+- 将 HTTPServer 部署至测试集群，并完成 Prometheus 配置；
+- 从 Promethus 界面中查询延时指标数据；
+- （可选）创建一个 Grafana Dashboard 展现延时分配情况。
+### 5.2 实现
+- 原main.go中添加prometheus相关代码
+- 重新制作Docker镜像，命名为httpserver:v1.0.1-metrics,步骤参考"第三章"
+- 在K8S集群中安装loki，同时安装Promethus，安装步骤参考如下：
+````
+1、helm repo add grafana https://grafana.github.io/helm-charts
+2、helm upgrade --install loki grafana/loki-stack --set grafana.enabled=true,prometheus.enabled=true,prometheus.alertmanager.persistentVolume.enabled=false,prometheus.server.persistentVolume.enabled=false
+````
+- 在K8S中把loki和Promethus的对应ClusterIP转为NodePort方式对外暴露端口
+- 编写deploy.yaml,详情查看httpserver-metrics-deploy.yaml
+- 在K8S中按照httpserver-metrics-deploy.yaml进行部署
+- 在Promethus界面中验证指标数据展现的情况
