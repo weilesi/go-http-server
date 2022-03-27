@@ -142,3 +142,29 @@ kubectl get CertificateRequest
 - 在K8S中按照httpserver-metrics-deploy.yaml进行部署
 - 在Promethus界面中验证指标数据展现的情况
 - 可以添加对应告警规则，利用AlertManager发送短信/邮件提醒作用
+## 六、httpserver以Istio Ingress Gateway的形式发布
+### 6.1 要求
+- 如何实现安全保证；
+- 七层路由规则；
+- 考虑 open tracing 的接入
+### 6.2 实现
+- 编写spec的yaml
+  详情查看httpserver-istio.yaml和httpserver-istio-ingress.yaml
+- 部署
+````
+kubectl create ns httpistio
+kubectl create -f httpserver-istio.yaml -n httpistio
+kubectl create -f httpserver-istio-ingress.yaml -n httpistio
+````
+- 检查
+````
+kubectl get svc -nistio-system
+
+istio-ingressgateway   LoadBalancer   192.168.17.129
+````
+- 访问并验证是否通过
+````
+export INGRESS_IP=192.168.17.129
+curl -H "Host: istio.hj.io" $INGRESS_IP/hello -v
+````
+- 通过curl能访问，验证通过

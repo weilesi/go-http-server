@@ -1,0 +1,32 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpserver-istio
+spec:
+  gateways:
+    - httpserver-istio
+  hosts:
+    - istio.hj.io
+  http:
+    - match:
+        - port: 80
+      route:
+        - destination:
+            host: istio.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: httpserver-istio
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - istio.hj.io
+      port:
+        name: httpserver
+        number: 80
+        protocol: HTTP
