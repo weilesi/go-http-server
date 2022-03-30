@@ -8,13 +8,16 @@ spec:
   hosts:
     - istio.hj.io
   http:
-    - match:
-        - port: 80
-      route:
+    - route:
         - destination:
-            host: istio.svc.cluster.local
+            host: httpserver.httpistio.svc.cluster.local
             port:
               number: 80
+      fault:
+        abort:
+          httpStatus: 500
+          precentage:
+            value: 50
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
@@ -28,5 +31,8 @@ spec:
         - istio.hj.io
       port:
         name: httpserver
-        number: 80
-        protocol: HTTP
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: httpserver-cert
+        mode: httpserver-istio
